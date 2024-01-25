@@ -1,4 +1,4 @@
-from eggcount.egg_count import (
+from eggcount.eggcount import (
     count_eggs_contour_thresh
 )
 from os import PathLike
