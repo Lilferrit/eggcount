@@ -6,13 +6,28 @@ def get_navbar() -> dbc.Nav:
     return dbc.Nav(
         children = [
             dbc.NavItem(
-                dbc.NavLink("Home")
+                children = dbc.NavLink(
+                    children = "Home",
+                    href = "/",
+                    class_name = "text-light"
+                )
             ),
             dbc.NavItem(
-                dbc.NavLink("About")
+                children = dbc.NavLink(
+                    children = "Usage Guide",
+                    href = "/guide",
+                    class_name = "text-light"
+                )
+            ),
+            dbc.NavItem(
+                children = dbc.NavLink(
+                    children = "About",
+                    href = "/about",
+                    class_name = "text-light"
+                )
             )
         ],
-        class_name = "bg-dark",
+        class_name = "bg-dark d-flex flex-row justify-content-start align-items-center",
         style = {
             "min-height": NAVBAR_MIN_HEIGHT
         }
