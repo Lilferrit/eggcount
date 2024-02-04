@@ -8,6 +8,7 @@ WORKDIR /code
 COPY ./requirements.txt /code/requirements.txt
 COPY ./setup.py /code/setup.py
 COPY ./eggcount /code/eggcount
+COPY ./MANIFEST.in /code/MANIFEST.in
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 RUN pip install -e /code
