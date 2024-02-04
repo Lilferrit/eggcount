@@ -140,7 +140,8 @@ def contour_thresh(
     img: np.ndarray,
     color_thresh: int = 75,
     avg_area: float = 800,
-    kernal_size: tuple[int, int] = (3, 3)
+    kernal_size: tuple[int, int] = (3, 3),
+    max_eggs: Optional[int] = None
 ) -> Dict:
     visualization_img = img.copy()
     img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
@@ -158,6 +159,11 @@ def contour_thresh(
         area = cv2.contourArea(cnt)
 
         if area > avg_area / 2:
+            curr_num = round(area / avg_area)
+
+            if max_eggs and (curr_num > max_eggs):
+                continue
+
             cv2.drawContours(visualization_img, [cnt], -1, (255, 0, 0), 2)
             curr_num = round(area / avg_area)
             num += curr_num

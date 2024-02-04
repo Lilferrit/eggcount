@@ -1,9 +1,22 @@
 from dash import html, dcc, callback, Input, Output, State
 from dash.exceptions import PreventUpdate
-from typing import Tuple, Any, Dict
+from typing import Tuple, Any, Dict, Optional
+from functools import partial
 from io import BytesIO
 from PIL import Image
 from pillow_heif import register_heif_opener
+from eggcount.gradient import (
+    component_thesh,
+    component_filter_thresh,
+    contour_thresh
+)
+from eggcount.ui.ui_utils import (
+    get_cc_ui,
+    get_cc_filter_ui,
+    get_contour_ui,
+    display_slider_value,
+    get_results_container
+)
 
 import plotly.express as px
 import base64
@@ -15,6 +28,14 @@ register_heif_opener()
 dash.register_page(__name__, path = "/")
 
 UPLOAD_HEIGHT = "25vh"
+
+COUNT_FUNCS = {
+    "Gradient CC": get_cc_ui,
+    "Gradient CC w/ filter": get_cc_filter_ui,
+    "Contour": get_contour_ui
+}
+
+DEFAULT_STRATEGY = "Gradient CC"
 
 def get_initial_upload_container() -> dbc.Container:
     return dcc.Upload(
@@ -88,6 +109,25 @@ layout = dbc.Container(
             ],
             is_open = False,
             id = "upload-modal"
+        ),
+        html.H4("Select Counting Strategy", className = "text-start mt-3"),
+        dcc.Dropdown(
+            options = [name for name in COUNT_FUNCS],
+            value = DEFAULT_STRATEGY,
+            id = "strat-picker",
+            className = "my-2 w-100"
+        ),
+        dbc.Container(
+            id = "count-ui-container",
+            className = "mt-1 mx-0 px-0" 
+        ),
+        dcc.Loading(
+            children = dbc.Container(
+                id = "count-res-container",
+                className = "mt-4 mx-0 px-0" 
+            ),
+            type = "default",
+            color = "black"
         )
     ],
     class_name = "text-center mt-3"
@@ -129,3 +169,158 @@ def on_image_upload(
             str(e),
             True
         )
+
+@callback(
+    Output("count-ui-container", "children"),
+    Input("strat-picker", "value")
+)
+def on_select_strat(
+    curr_strat: str
+) -> Optional[dbc.Container]:
+    if curr_strat not in COUNT_FUNCS:
+        return None
+    
+    ui_fun = COUNT_FUNCS[curr_strat]
+    return ui_fun()
+
+@callback(
+    Output("count-res-container", "children", allow_duplicate = True),
+    Input("count-cc", "n_clicks"),
+    State("select-cc-color-thresh", "value"),
+    State("select-cc-avg-area", "value"),
+    State("select-cc-max-eggs", "value"),
+    State("img-data-store", "data"),
+    allow_duplicate = True,
+    prevent_initial_call = True
+)
+def on_count_cc(
+    n_clicks: int,
+    color_thresh: int,
+    avg_area: int,
+    max_eggs: Optional[int],
+    image_store: Dict,
+) -> dbc.Container:
+    if not n_clicks:
+        return None
+
+    decoded_bytes = base64.b64decode(image_store["img"])
+    image_data = BytesIO(decoded_bytes)
+    pil_img = Image.open(image_data)
+    img = np.array(pil_img)
+
+    color_thresh = int(color_thresh)
+    avg_area = int(avg_area)
+
+    if max_eggs:
+        max_eggs = int(max_eggs)
+
+    results = component_thesh(
+        img,
+        color_thresh = color_thresh,
+        avg_area = avg_area,
+        max_eggs = max_eggs
+    )
+
+    return get_results_container(results)
+
+@callback(
+    Output("count-res-container", "children", allow_duplicate = True),
+    Input("count-cc-filter", "n_clicks"),
+    State("select-cc-filter-color-thresh", "value"),
+    State("select-cc-filter-avg-area", "value"),
+    State("select-cc-filter-max-eggs", "value"),
+    State("select-cc-kernel-width", "value"),
+    State("select-cc-kernel-height", "value"),
+    State("img-data-store", "data"),
+    prevent_initial_call = True
+)
+def on_count_cc(
+    n_clicks: int,
+    color_thresh: int,
+    avg_area: int,
+    max_eggs: Optional[int],
+    kernel_width: int,
+    kernel_height: int,
+    image_store: Dict,
+) -> dbc.Container:
+    if not n_clicks:
+        return None
+
+    decoded_bytes = base64.b64decode(image_store["img"])
+    image_data = BytesIO(decoded_bytes)
+    pil_img = Image.open(image_data)
+    img = np.array(pil_img)
+
+    color_thresh = int(color_thresh)
+    avg_area = int(avg_area)
+    kernel_width = int(kernel_width)
+    kernel_height = int(kernel_height)
+
+    if max_eggs:
+        max_eggs = int(max_eggs)
+
+    results = component_filter_thresh(
+        img,
+        color_thresh = color_thresh,
+        avg_area = avg_area,
+        kernal_size = (kernel_width, kernel_height),
+        max_eggs = max_eggs
+    )
+
+    return get_results_container(results)
+
+@callback(
+    Output("count-res-container", "children", allow_duplicate = True),
+    Input("count-contour", "n_clicks"),
+    State("select-contour-color-thresh", "value"),
+    State("select-contour-avg-area", "value"),
+    State("select-contour-max-eggs", "value"),
+    State("select-contour-width", "value"),
+    State("select-contour-height", "value"),
+    State("img-data-store", "data"),
+    prevent_initial_call = True
+)
+def on_count_contour(
+    n_clicks: int,
+    color_thresh: int,
+    avg_area: int,
+    max_eggs: Optional[int],
+    kernel_width: int,
+    kernel_height: int,
+    image_store: Dict,
+) -> dbc.Container:
+    if not n_clicks:
+        return None
+
+    decoded_bytes = base64.b64decode(image_store["img"])
+    image_data = BytesIO(decoded_bytes)
+    pil_img = Image.open(image_data)
+    img = np.array(pil_img)
+
+    color_thresh = int(color_thresh)
+    avg_area = int(avg_area)
+    kernel_width = int(kernel_width)
+    kernel_height = int(kernel_height)
+
+    if max_eggs:
+        max_eggs = int(max_eggs)
+
+    results = contour_thresh(
+        img,
+        color_thresh = color_thresh,
+        avg_area = avg_area,
+        kernal_size = (kernel_width, kernel_height),
+        max_eggs = max_eggs
+    )
+
+    return get_results_container(results)
+    
+callback(
+    Output("display-cc-color-thresh", "children"),
+    Input("select-cc-color-thresh", "value")
+)(partial(display_slider_value, "Color Threshold"))
+
+callback(
+    Output("display-cc-filter-color-thresh", "children"),
+    Input("select-cc-filter-color-thresh", "value")
+)(partial(display_slider_value, "Color Threshold"))
