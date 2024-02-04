@@ -1,5 +1,6 @@
 import dash_bootstrap_components as dbc
 import dash
+import fire
 
 from eggcount.ui.ui_utils import (
     get_navbar
@@ -21,5 +22,16 @@ app.layout = dbc.Container(
     id = "content-container"
 )
 
+def main(
+    debug: bool = False,
+    port: str = "8080",
+    host: str = "127.0.0.1"
+) -> None:
+    app.run(
+        debug = debug,
+        host = host,
+        port = port
+    )
+
 if __name__ == '__main__':
-    app.run(debug = True)
+    fire.Fire(main)
