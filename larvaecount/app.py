@@ -2,7 +2,7 @@ import dash_bootstrap_components as dbc
 import dash
 import fire
 
-from eggcount.ui.ui_utils import (
+from larvaecount.ui.ui_utils import (
     get_navbar
 )
 from dash import Dash, html, dcc

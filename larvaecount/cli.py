@@ -1,4 +1,4 @@
-from eggcount.gradient import (
+from larvaecount.gradient import (
     contour_thresh,
     component_thesh,
     component_filter_thresh

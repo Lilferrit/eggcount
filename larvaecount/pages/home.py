@@ -5,12 +5,12 @@ from functools import partial
 from io import BytesIO
 from PIL import Image
 from pillow_heif import register_heif_opener
-from eggcount.gradient import (
+from larvaecount.gradient import (
     component_thesh,
     component_filter_thresh,
     contour_thresh
 )
-from eggcount.ui.ui_utils import (
+from larvaecount.ui.ui_utils import (
     get_cc_ui,
     get_cc_filter_ui,
     get_contour_ui,

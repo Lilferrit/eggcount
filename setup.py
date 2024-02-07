@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name = "eggcount",
+    name = "larvaecount",
     version = "0.1",
     packages = find_packages(),
-    package_data={"eggcount": ["assets/*.jpg", "assets/*.png"]}
+    package_data={"larvaecount": ["assets/*.jpg", "assets/*.png"]}
 )
