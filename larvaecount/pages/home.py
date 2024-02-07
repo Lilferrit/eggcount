@@ -89,8 +89,11 @@ def get_new_upload_container(
 layout = dbc.Container(
     children = [
         dbc.Container(
-            children = get_initial_upload_container(),
-            id = "image-upload-container",
+            children = dcc.Loading(
+                children = get_initial_upload_container(),
+                id = "image-upload-container",
+                color = "black"
+            ),
             class_name = "m-0 p-0 border border-dark"
         ),
         dcc.Store(
@@ -323,4 +326,9 @@ callback(
 callback(
     Output("display-cc-filter-color-thresh", "children"),
     Input("select-cc-filter-color-thresh", "value")
+)(partial(display_slider_value, "Color Threshold"))
+
+callback(
+    Output("display-contour-color-thresh", "children"),
+    Input("select-contour-color-thresh", "value")
 )(partial(display_slider_value, "Color Threshold"))

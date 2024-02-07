@@ -80,7 +80,7 @@ def get_cc_ui() -> dbc.Container:
                 className = "w-50"
             ),
             html.H5(
-                children = "Max Eggs (optional)",
+                children = "Max Eggs Per Cluster (optional)",
                 className = "text-start my-3 mt-3"
             ),
             dcc.Input(
@@ -127,7 +127,7 @@ def get_cc_filter_ui() -> dbc.Container:
                 className = "w-50"
             ),
             html.H5(
-                children = "Max Eggs (optional)",
+                children = "Max Eggs Per Cluster (optional)",
                 className = "text-start my-3 mt-3"
             ),
             dcc.Input(
@@ -136,7 +136,7 @@ def get_cc_filter_ui() -> dbc.Container:
                 className = "w-50"
             ),
             html.H5(
-                children = "Kernel Width",
+                children = "Filter Kernel Width (Pixels)",
                 className = "text-start my-3"
             ),
             dcc.Input(
@@ -146,7 +146,7 @@ def get_cc_filter_ui() -> dbc.Container:
                 className = "w-50"
             ),
             html.H5(
-                children = "Kernel Height",
+                children = "Filter Kernel Height (Pixels)",
                 className = "text-start my-3"
             ),
             dcc.Input(
@@ -194,7 +194,7 @@ def get_contour_ui() -> dbc.Container:
                 className = "w-50"
             ),
             html.H5(
-                children = "Max Eggs (optional)",
+                children = "Max Eggs Per Cluster (optional)",
                 className = "text-start my-3 mt-3"
             ),
             dcc.Input(
@@ -203,7 +203,7 @@ def get_contour_ui() -> dbc.Container:
                 className = "w-50"
             ),
             html.H5(
-                children = "Kernel Width",
+                children = "Filter Kernel Width (Pixels)",
                 className = "text-start my-3"
             ),
             dcc.Input(
@@ -213,7 +213,7 @@ def get_contour_ui() -> dbc.Container:
                 className = "w-50"
             ),
             html.H5(
-                children = "Kernel Height",
+                children = "Filter Kernel Height (Pixels)",
                 className = "text-start my-3"
             ),
             dcc.Input(

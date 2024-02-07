@@ -13,4 +13,4 @@ COPY ./MANIFEST.in /code/MANIFEST.in
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 RUN pip install -e /code
 
-CMD ["python3", "-m", "eggcount.app", "--host=\"0.0.0.0\"", "--port=\"7860\""]
+CMD ["python3", "-m", "larvaecount.app", "--host=\"0.0.0.0\"", "--port=\"7860\""]
