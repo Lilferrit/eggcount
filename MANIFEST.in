@@ -1,2 +1,4 @@
-include eggcount/assets/*.jpg
-include eggcount/assets/*.png
+include larvaecount/assets/*.jpg
+include larvaecount/assets/*.png
+include larvaecount/assets/*.css
+include larvaecount/docs/*.md

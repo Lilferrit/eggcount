@@ -1,5 +1,6 @@
 from dash import html, dcc
 from typing import Dict
+from os import PathLike
 
 import plotly.express as px
 import numpy as np
@@ -31,13 +32,6 @@ def get_navbar() -> dbc.Nav:
                 children = dbc.NavLink(
                     children = "Usage Guide",
                     href = "/guide",
-                    class_name = "text-light"
-                )
-            ),
-            dbc.NavItem(
-                children = dbc.NavLink(
-                    children = "About",
-                    href = "/about",
                     class_name = "text-light"
                 )
             )
@@ -247,7 +241,10 @@ def get_results_container(result: Dict) -> dbc.Container:
 
     for vis_name, vis_pic in result["vis"].items():
         children.append(html.H4(vis_name.replace("-", " ")))
-        image_fig = px.imshow(vis_pic)
+        image_fig = px.imshow(
+            vis_pic,
+            height = 750
+        )
         children.append(
             dcc.Graph(
                 figure = image_fig,
@@ -259,3 +256,7 @@ def get_results_container(result: Dict) -> dbc.Container:
         children = children,
         className = "p-3 m-0 border border-dark d-flex flex-column justify-content-center align-items-center"
     )
+
+def read_md_file(md_file_path: PathLike) -> str:
+    with open(md_file_path, "r") as file:
+        return file.read()

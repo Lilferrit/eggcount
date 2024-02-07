@@ -31,11 +31,11 @@ UPLOAD_HEIGHT = "25vh"
 
 COUNT_FUNCS = {
     "Gradient CC": get_cc_ui,
-    "Gradient CC w/ filter": get_cc_filter_ui,
-    "Contour": get_contour_ui
+    "Gradient CC w/ Filter": get_cc_filter_ui,
+    "Gradient Contour w/ Filter": get_contour_ui
 }
 
-DEFAULT_STRATEGY = "Gradient CC"
+DEFAULT_STRATEGY = "Gradient CC w/ Filter"
 
 def get_initial_upload_container() -> dbc.Container:
     return dcc.Upload(
@@ -64,7 +64,10 @@ def get_new_upload_container(
     image_data = BytesIO(decoded_bytes)
     pil_img = Image.open(image_data)
     img = np.array(pil_img)
-    image_fig = px.imshow(img)
+    image_fig = px.imshow(
+        img,
+        height = 750,
+    )
 
     return dbc.Container(
         children = [
@@ -72,7 +75,9 @@ def get_new_upload_container(
                 children = file_name,
                 className = "p-2 text-start",
             ),
-            dcc.Graph(figure = image_fig),
+            dcc.Graph(
+                figure = image_fig,
+            ),
             dbc.Container(
                 children = dcc.Upload(
                     children = dbc.Button(

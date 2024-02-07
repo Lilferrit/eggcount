@@ -65,6 +65,7 @@ def component_filter_thresh(
             "Num-Eggs": num_eggs
         },
         "vis": {
+            "Gray-Scale": img_gray.astype(np.uint8),
             "Egg-Mask": bin_mask.astype(np.uint8),
             "Ellipse-Filter": close.astype(np.uint8),
             "Visualization": visualization_img.astype(np.uint8)
@@ -131,6 +132,7 @@ def component_thesh(
             "Num-Eggs": num_eggs
         },
         "vis": {
+            "Gray-Scale": img_gray.astype(np.uint8),
             "Egg-Mask": bin_mask.astype(np.uint8),
             "Visualization": visualization_img.astype(np.uint8)
         }
@@ -183,6 +185,7 @@ def contour_thresh(
             "Num-Eggs": num
         },
         "vis": {
+            "Gray-Scale": img_gray.astype(np.uint8),
             "Egg-Mask": bin_mask.astype(np.uint8),
             "Ellipse-Filter": close.astype(np.uint8),
             "Visualization": visualization_img.astype(np.uint8)
