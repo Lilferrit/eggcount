@@ -4,7 +4,7 @@ WORKDIR /code
 
 COPY ./requirements.txt /code/requirements.txt
 COPY ./setup.py /code/setup.py
-COPY ./eggcount /code/eggcount
+COPY ./larvaecount /code/larvaecount
 COPY ./MANIFEST.in /code/MANIFEST.in
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
