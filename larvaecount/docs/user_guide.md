@@ -94,3 +94,9 @@ it iterates over regions contained within (an) elliptical contour(s).
     large dark blobs in the image.
 - `Filter Kernel Width (Pixels)`: Width (in pixels) of the elliptical filter.
 - `Filter Kernel Height (Pixels)`: Height (in pixels) of the elliptical filter.
+
+### YoloV8 (Coming Soon!!)
+
+Deep learning implementation of the larvae/pupae counter. Not only should a deep learning
+approach have far less parameters to tune, it should perform **much** better than the old-school
+computer vision approaches currently in use.
