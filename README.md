@@ -1,3 +1,13 @@
+---
+title: Larvae Counter
+emoji: 📚
+colorFrom: indigo
+colorTo: blue
+sdk: docker
+pinned: false
+license: mit
+---
+
 # Larvae Counter
 
 Welcome to the Larvae Counter repo! This web-app utilizes several computer vision techniques to
