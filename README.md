@@ -1,6 +1,6 @@
 ---
 title: Larvae Counter
-emoji: 📚
+emoji: 🦟
 colorFrom: indigo
 colorTo: blue
 sdk: docker
